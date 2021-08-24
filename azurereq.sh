@@ -27,6 +27,13 @@ APPLICATIONID="Application (client) ID"
 APPLICATIONSECRET="Application Secret"
 TENANTID="Directory (tenant) ID"
 
+if command -v az >/dev/null 2>&1 ; then
+    echo "az found"
+else
+    echo "az command not found, please install az"
+    exit 0
+fi
+
 if command -v xmllint >/dev/null 2>&1 ; then
     echo "xmllint found"
 else
