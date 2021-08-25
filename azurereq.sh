@@ -27,23 +27,17 @@ APPLICATIONID="Application (client) ID"
 APPLICATIONSECRET="Application Secret"
 TENANTID="Directory (tenant) ID"
 
-if command -v az >/dev/null 2>&1 ; then
-    echo "az found"
-else
+if ! command -v az >/dev/null 2>&1 ; then
     echo "az command not found, please install az"
     exit 0
 fi
 
-if command -v xmllint >/dev/null 2>&1 ; then
-    echo "xmllint found"
-else
+if ! command -v xmllint >/dev/null 2>&1 ; then
     echo "xmllint command not found, please install xmllint"
     exit 0
 fi
 
-if command -v jq >/dev/null 2>&1 ; then
-    echo "jq found"
-else
+if ! command -v jq >/dev/null 2>&1 ; then
     echo "jq not found, please install jq"
     exit 0
 fi
