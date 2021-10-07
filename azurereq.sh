@@ -50,7 +50,7 @@ XML="<model-import xmlns=\"http://xmlns.opennms.org/xsd/config/model-import\" da
 for RESOURCEGROUP in $(az group list --query [].name --output tsv)
 do
 
-    for NODE in $(az vm list --resource-group "${RESOURCEGROUP}" --query "[].{NodeLabel:name, Tags:tags, OS:storageProfile.osDisk.osType}" --output json | jq -c '.[]'); do
+    for NODE in $(az vm list --resource-group "${RESOURCEGROUP}" --query "[].{NodeLabel:name, Tags:tags, OS:storageProfile.osDisk.osType, VM:vmId}" --output json | jq -c '.[]'); do
 
         _jq()
         {
@@ -60,6 +60,7 @@ do
         NODELABEL=$(_jq '.NodeLabel')
         OS=$(_jq '.OS')
         ENVIRONMENT=$(_jq '.Tags.Environment')
+	VMID=$(_jq '.VM')
         if [ "$ENVIRONMENT" = "Production" ]; then
             LOCATION=$(_jq '.NodeLabel')
             PUBIP=$(az vm list-ip-addresses --resource-group "${RESOURCEGROUP}" --name "${NODELABEL}" --query "[].virtualMachine.network.publicIpAddresses[0].ipAddress" --output tsv)
@@ -68,7 +69,7 @@ do
 
             XML=$XML"
 
-   <node building=\"${RESOURCEGROUP}\" foreign-id=\"\" node-label=\"${NODELABEL}\">
+   <node building=\"${RESOURCEGROUP}\" foreign-id=\"${VMID}\" node-label=\"${NODELABEL}\">
       <interface ip-addr=\"$PUBIP\" status=\"1\" snmp-primary=\"P\">
          <!-- <monitored-service service-name=\"HTTP\"/> -->
       </interface>
