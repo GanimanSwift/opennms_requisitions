@@ -6,11 +6,13 @@ Scripts that generate XML requisitions for use with OpenNMS to automate monitore
 ### azurereq.sh
 
 Run from command line:
+
     azurereq.sh > /tmp/azurereq.xml
     
 OR
 
 Set up a cron job like:
+
     0 0 * * * /usr/local/sbin/azurereq.sh > /tmp/azurereq.xml
 
 AND
